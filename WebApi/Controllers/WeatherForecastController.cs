@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ILogger = Serilog.ILogger;
 
 namespace WebApi.Controllers;
 
@@ -11,9 +12,9 @@ public class WeatherForecastController : ControllerBase
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger logger)
     {
         _logger = logger;
     }
@@ -37,7 +38,7 @@ public class WeatherForecastController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Something went wrong!");
+            _logger.Error(e, "Something went wrong! {CustomProperty}", 50);
             return new StatusCodeResult(500);
         }
     }
